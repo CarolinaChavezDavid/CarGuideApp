@@ -5,6 +5,7 @@ import com.example.cardguideapp.R
 import com.example.cardguideapp.domain.models.CarInformationModel
 import com.example.cardguideapp.presentation.contract.CarGuideContract
 import org.json.JSONArray
+import java.util.Locale
 
 class CarGuidePresenter(private val assetManager: AssetManager) : CarGuideContract.Presenter {
     override fun getJsonParsedDataWithGson(): List<CarInformationModel> {
@@ -29,6 +30,28 @@ class CarGuidePresenter(private val assetManager: AssetManager) : CarGuideContra
         }
         carList.apply { this.first().isSelected = true }
         return setCardImages(carList)
+    }
+
+    override fun onMakeQueryChanged(
+        filterString: String,
+        carList: List<CarInformationModel>
+    ): List<CarInformationModel> {
+        val filteredList = mutableListOf<CarInformationModel>()
+        carList.forEach { car ->
+            if (car.carMake.lowercase(Locale.ROOT).contains(filterString)) filteredList.add(car)
+        }
+        return filteredList
+    }
+
+    override fun onModelQueryChanged(
+        filterString: String,
+        carList: List<CarInformationModel>
+    ): List<CarInformationModel> {
+        val filteredList = mutableListOf<CarInformationModel>()
+        carList.forEach { car ->
+            if (car.carModel.lowercase(Locale.ROOT).contains(filterString)) filteredList.add(car)
+        }
+        return filteredList
     }
 
     fun setCardImages(cars: List<CarInformationModel>): List<CarInformationModel> {

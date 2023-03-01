@@ -60,7 +60,7 @@ class CarDetailListAdapter(
     override fun onBindViewHolder(holder: CarDetailViewHolder, position: Int) {
         holder.bind(carInformationList[position], position)
     }
-    fun carListUpdated(newList: List<CarInformationModel>){
+    fun carListUpdated(newList: List<CarInformationModel>) {
         carInformationList = newList
         notifyDataSetChanged()
     }
