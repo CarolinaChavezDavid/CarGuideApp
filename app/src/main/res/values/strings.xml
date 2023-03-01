@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CardGuideApp</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="toolbar_title">GUIDOMIA by Carolina</string>
+    <string name="header_title">Tacoma 2021</string>
+    <string name="header_subtitle">Get your\'s now</string>
+    <string name="filter_box_title">Filters</string>
+    <string name="label_hint_make">Any make</string>
+    <string name="label_hint_model">Any model</string>
+    <string name="car_model_example">Range Rover</string>
+    <string name="car_price_example">Price: 120k</string>
+    <string name="pros_text">Pros:</string>
+    <string name="cons_text">Cons:</string>
+
+</resources>
