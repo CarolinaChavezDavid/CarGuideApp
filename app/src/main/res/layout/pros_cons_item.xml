@@ -16,9 +16,9 @@
         android:layout_marginTop="@dimen/dimen_12dp"/>
 
     <TextView
+        android:id="@+id/proConTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_hint_make"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="@dimen/dimen_16sp"

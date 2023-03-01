@@ -1,39 +1,33 @@
 package com.example.cardguideapp.presentation.presenter
 
-import android.content.Context
+import android.content.res.AssetManager
 import com.example.cardguideapp.R
 import com.example.cardguideapp.domain.models.CarInformationModel
 import com.example.cardguideapp.presentation.contract.CarGuideContract
 import org.json.JSONArray
-import org.json.JSONObject
 
-class CarGuidePresenter : CarGuideContract.Presenter {
-
-    override fun getJsonParsedData(context: Context): List<CarInformationModel> {
+class CarGuidePresenter(private val assetManager: AssetManager) : CarGuideContract.Presenter {
+    override fun getJsonParsedDataWithGson(): List<CarInformationModel> {
         var carList = mutableListOf<CarInformationModel>()
-        val jsonData = context.resources.openRawResource(
-            context.resources.getIdentifier(
-                "car_list",
-                "raw",
-                context.packageName
-            )
-        ).bufferedReader().use { it.readText() }
 
-        val jsonOutput = JSONObject(jsonData)
-        val cars = jsonOutput.getJSONArray("") as JSONArray
-        for (i in 0 until cars.length()) {
+        val jsonData = assetManager.open("car_list.json").bufferedReader().use { it.readText() }
+        val array = JSONArray(jsonData)
+
+        for (i in 0 until array.length()) {
+            val car = array.getJSONObject(i)
             carList.add(
                 CarInformationModel(
-                    carModel = cars.getJSONObject(i).getString("model"),
-                    costumerPrice = cars.getJSONObject(i).getDouble("customerPrice"),
-                    carMake = cars.getJSONObject(i).getString("make"),
-                    marketPrice = cars.getJSONObject(i).getDouble("customerPrice"),
-                    consList = listOf(),
-                    prosList = listOf(),
-                    raiting = cars.getJSONObject(i).getInt("rating")
+                    carModel = car.getString("model"),
+                    costumerPrice = car.getDouble("customerPrice"),
+                    carMake = car.getString("make"),
+                    marketPrice = car.getDouble("customerPrice"),
+                    consList = getProsConsList(car.getJSONArray("consList")),
+                    prosList = getProsConsList(car.getJSONArray("prosList")),
+                    car_rating = car.getInt("rating")
                 )
             )
         }
+        carList.apply { this.first().isSelected = true }
         return setCardImages(carList)
     }
 
@@ -57,9 +51,8 @@ class CarGuidePresenter : CarGuideContract.Presenter {
     private fun getProsConsList(array: JSONArray): List<String> {
         var stringsList = mutableListOf<String>()
         for (i in 0 until array.length()) {
-            stringsList.add(
-                array.getJSONObject(i).get("").toString()
-            )
+            var newString = array.getString(i)
+            if (newString.isNotEmpty()) stringsList.add(newString)
         }
         return stringsList
     }
